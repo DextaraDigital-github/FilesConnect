@@ -965,7 +965,6 @@ public with sharing class FileConnectService extends AWS {
                 } else {
                     List<ContentDocument> conList= [SELECT Id FROM ContentDocument where ContentAssetId = null And Id IN: contentDocumentIds WITH SECURITY_ENFORCED];
                     List<Database.DeleteResult> deleteResult = Database.delete(conList);
-                    errorList = SecurityCheckController.safeClassExceptionHandlerDelete(deleteResult); 
                 }
                 
                 

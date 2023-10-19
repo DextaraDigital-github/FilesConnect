@@ -7,9 +7,9 @@
 		<members>FileConnectSelector</members>
 		<members>FileConnectService</members>
 		<members>FileConnectTest</members>
+		<members>TestDataFactory</members>
 		<name>ApexClass</name>
 	</types>
-	
 	<types>
 		<members>*</members>
 		<name>CorsWhitelistOrigin</name>
@@ -68,7 +68,6 @@
 		<members>sharepoint</members>
 		<name>LightningComponentBundle</name>
 	</types>
-	
 	<types>
 		<members>Google</members>
 		<members>SFD</members>
@@ -78,6 +77,10 @@
 		<members>googledrive</members>
 		<members>s</members>
 		<name>RemoteSiteSetting</name>
+	</types>
+	<types>
+		<members>AWSJSSDK</members>
+		<name>StaticResource</name>
 	</types>
 	<version>58.0</version>
 </Package>

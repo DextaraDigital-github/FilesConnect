@@ -82,7 +82,6 @@ public class AWSS3ServiceQueueable implements Queueable, Database.AllowsCallouts
                         if(deleteFlag == true) {
                             List<ContentDocument> conList= [SELECT Id FROM ContentDocument where ContentAssetId = null And Id IN: contentDocumentIds];
                             List<Database.DeleteResult> deleteResult = Database.delete(conList);
-                            errorList = SecurityCheckController.safeClassExceptionHandlerDelete(deleteResult);
                         }
                     }
                     
