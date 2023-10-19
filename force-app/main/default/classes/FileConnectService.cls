@@ -504,7 +504,7 @@ public with sharing class FileConnectService extends AWS {
             HttpRequest request = new HttpRequest();
             HttpResponse response = new HttpResponse();
             Http http = new Http();
-            String endpoint = 'callout:Drive/files?q=\''+Label.MainDriveFolderId+'\'%20in%20parents%20and%20trashed=false';   
+            String endpoint = 'callout:Drive/files';   
             request.setEndpoint(endpoint);
             request.setMethod('GET');
             response = http.send(request);
@@ -523,7 +523,7 @@ public with sharing class FileConnectService extends AWS {
                 
                 
                 if(objectFolderId == null || objectFolderId == '') {
-                    String objFolderId = createFolder(objectName,Label.MainDriveFolderId,'object');
+                    String objFolderId = createFolder(objectName,null,'object');
                     if(objFolderId != null && objFolderId != ''){
                         String recFolderId =  createFolder(recordFolderName,objFolderId,'record');
                         if(recFolderId != null && recFolderId != ''){
@@ -613,14 +613,17 @@ public with sharing class FileConnectService extends AWS {
             request.setTimeout(120000);
             List<String> strlst=new  List<String>();
             
-            List<Parent> parentwraplst=new List<Parent>();
-            Parent parentwrap=new Parent();
-            parentwrap.parentid=parentFolderId;
-            parentwraplst.add(parentwrap);
+           
             Wrapper wrap=new Wrapper();
             wrap.title=folderName;
             wrap.mimeType='application/vnd.google-apps.folder';
+            if(parentFolderId != null){
+             List<Parent> parentwraplst=new List<Parent>();
+            Parent parentwrap=new Parent();
+            parentwrap.parentid=parentFolderId;
+            parentwraplst.add(parentwrap);
             wrap.parents=parentwraplst;
+            }
             request.setBody((JSON.serialize(wrap)).replace('parentid','id'));
             response = http.send(request);
             if(response.getStatusCode() == 200 || response.getStatusCode() == 201){
