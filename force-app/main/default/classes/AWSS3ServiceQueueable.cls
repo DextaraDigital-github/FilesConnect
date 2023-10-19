@@ -54,7 +54,7 @@ public class AWSS3ServiceQueueable implements Queueable, Database.AllowsCallouts
                         
                         for(ContentVersion conver:versionData) {
                             contentDocumentIds.add(conver.ContentDocumentId);
-                            AWSS3Service putAttachment = new AWSS3Service();
+                            FileConnectService putAttachment = new FileConnectService();
                             putAttachment.recordId = recId;
                             if(pathRecId == null) {
                                 putAttachment.folderName='/'+ objectName +'/'+ recId ;

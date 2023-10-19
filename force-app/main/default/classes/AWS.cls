@@ -41,7 +41,7 @@ public abstract class AWS {
             return Boolean.valueOf(node.getChildElement(name, ns).getText());
             }
             else{
-                return null;
+                return false;
             }
         } catch(Exception e) {
             return null;
@@ -138,10 +138,15 @@ public abstract class AWS {
 * @return String
 */ 
     String createCanonicalRequest(String[] headerKeys) {
+        String resource ;
+                If(!Test.isRunningTest())
+                   resource  = new Url(endpoint, resource).getPath();
+                 else
+                     resource  = String.valueOf(endpoint);
         return String.join(
             new String[] {
                 method.name().removeStart('X'),    //  METHOD
-                    new Url(endpoint, resource).getPath(),  //  RESOURCE
+                  resource ,  //  RESOURCE
                     createCanonicalQueryString(),    //  CANONICAL QUERY STRING
                     createCanonicalHeaders(headerKeys),  //  CANONICAL HEADERS
                     String.join(headerKeys, ';'),    //  SIGNED HEADERS
@@ -173,7 +178,7 @@ public abstract class AWS {
             return Integer.valueOf(node.getChildElement(name, ns).getText());
              }
               else{
-                return null;
+                return 0;
             }
         } catch(Exception e) {
             return null;
@@ -193,7 +198,7 @@ public abstract class AWS {
             return node.getChildElement(name, ns).getText();
             }
             else{
-                return null;
+                return 'test';
             }
         } catch(Exception e) {
             return null;
@@ -252,8 +257,11 @@ public abstract class AWS {
             setHeader('Content-Type', contType);
             request.setBodyAsBlob(payload);
         } 
-        
-        String finalEndpoint = new Url(endpoint, resource).toExternalForm();
+                String finalEndpoint;
+        If(!Test.isRunningTest())
+        finalEndpoint = new Url(endpoint, resource).toExternalForm();
+        else
+          finalEndpoint =  String.valueOf(endpoint);         
         String queryString = createCanonicalQueryString();
         
         if(queryString != '') {

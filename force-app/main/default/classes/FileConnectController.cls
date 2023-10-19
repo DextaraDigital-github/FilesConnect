@@ -1,3 +1,10 @@
+/**
+* Class Name        : FileConnectController
+* Developer         : Priyanka    
+* Created Date      : 9-10-2023
+* @description       : FileConnectController class is controller class for component.
+* Last Modified Date: 19-10-2023
+*/
 public with sharing class FileConnectController {
     
     static FileConnectSelector selector = FileConnectSelector.getInstance();

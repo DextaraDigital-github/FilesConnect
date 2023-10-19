@@ -1,9 +1,9 @@
 /**
 * Class Name        : FileConnectTest
-* Developer         :           
-* Created Date      :
+* Developer         : Priyanka    
+* Created Date      : 9-10-2023
 * @description       : FileConnectTest class is used to check the code coverage for FileConnect classes.
-* Last Modified Date:
+* Last Modified Date: 19-10-2023
 */
 @isTest
 private class FileConnectTest {
@@ -161,7 +161,6 @@ private class FileConnectTest {
             Test.startTest();
             FileConnectController.uploadFiles(acc[0].Id, 'Account', null, false, u.id);
             FileConnectService aws=new FileConnectService();
-            //aws.init();       
             aws.convertToHex('c','test');
             Test.stopTest();
             System.assertEquals(1,acc.size(),'Assert Failed');

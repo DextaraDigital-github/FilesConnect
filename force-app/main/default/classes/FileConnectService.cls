@@ -1,3 +1,10 @@
+/**
+* Class Name        : FileConnectService
+* Developer         : Priyanka    
+* Created Date      : 9-10-2023
+* @description       : FileConnectService class is service class.
+* Last Modified Date: 19-10-2023
+*/
 public with sharing class FileConnectService extends AWS {
     private static FileConnectService serviceClass = null; //private static instance of the class
     static FileConnectSelector selector = FileConnectSelector.getInstance();
