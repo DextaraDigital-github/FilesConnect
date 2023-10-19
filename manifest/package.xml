@@ -61,6 +61,11 @@
 		<name>CustomObject</name>
 	</types>
 	<types>
+		<members>Key_Configurations__mdt-Key Configuration Layout</members>
+		<members>Storage_Point__mdt-Storage Point Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
 		<members>awsS3Files</members>
 		<members>googleDrive</members>
 		<members>masterFiles</members>
@@ -75,7 +80,6 @@
 		<members>aws</members>
 		<members>awsurl</members>
 		<members>googledrive</members>
-		<members>s</members>
 		<name>RemoteSiteSetting</name>
 	</types>
 	<types>
