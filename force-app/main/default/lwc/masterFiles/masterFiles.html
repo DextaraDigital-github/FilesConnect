@@ -1,0 +1,13 @@
+<template>
+<template if:true={awsFlag}>
+	<c-aws-s3-files record-id={recordId} object-api-name={objectApiName}></c-aws-s3-files>
+</template>
+<template if:true={sharepointFlag}>
+	<!-- <c-aws-s3-files record-id={recordId} object-api-name={objectApiName}></c-aws-s3-files> -->
+	<c-sharepoint record-id={recordId}></c-sharepoint>
+</template>
+<template if:true={driveFlag}>
+	<!-- <c-aws-s3-files record-id={recordId} object-api-name={objectApiName}></c-aws-s3-files> -->
+	<c-google-drive record-id={recordId}></c-google-drive>
+</template>
+</template>

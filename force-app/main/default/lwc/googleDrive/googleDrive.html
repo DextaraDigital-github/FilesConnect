@@ -1,0 +1,109 @@
+<template>
+	<div class="uploadCard">
+		<div class="slds-grid slds-wrap">
+			<div style="gap:20px;align-items:end;" class="slds-col slds-size_1-of-1 slds-grid">
+				<div class="form-group has-search slds-col_bump-right"
+					style="padding: 4px 10px;border: 1px solid grey;border-radius: 20px;display: flex;">
+					<span><lightning-icon icon-name="utility:search" size="xx-small"></lightning-icon></span>
+					<input type="text" class="form-control search" placeholder="Search"  onkeyup={handleSearch}></input>
+				</div>
+				<button onclick={handleDelete} class="deleteButton">Delete</button>
+				<button onclick={handleUpload} class="uploadButton">Upload</button>
+				<!-- <button onclick={handleDownload} class="DownloadButton">Download</button> -->
+				<lightning-input type="file" label="Choose File" data-id="fileInput" onchange={handleFileChange}
+					style="display: none;" multiple></lightning-input>
+			</div>
+			<template if:false={showSpinner}>
+				<div class="slds-col slds-size_1-of-1">
+					<table>
+						<thead>
+							<tr>
+								<th>
+									<label class="container">
+											<!-- <input type="checkbox" checked={isAllSelected} onchange={handleSelectAll} /><span class="checkmark"></span> -->
+										</label>
+								</th>
+								<th class="centerTextTableData">
+									File Name
+								</th>
+								<th class="centerTextTableData">
+									Created Date
+								</th>
+								<th class="centerTextTableData">
+								</th>
+								<th style="margin-right:20px">
+								</th>
+								<th>
+									Download
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<template for:each={filterData} for:item="file">
+								<tr key={file}>
+									<td>
+										<label class="container">
+												<input type="checkbox" checked={file.isChecked} data-file-name={file.name} onchange={handleFileSelection} />
+												<span class="checkmark"></span>
+											</label>
+									</td>
+									<td class="centerTextTableData">
+										{file.title}
+									</td>
+									<td class="centerTextTableData" style="margin-right:40px">
+										{file.createdDate}
+									</td>
+									<td class="centerTextTableData" style="margin-right:45px">
+										{file.id}
+									</td>
+									<td style="margin-right:40px">
+										<!-- <lightning-icon icon-name="utility:preview" alternative-text="" size="small"
+											onclick={handlePreview} data-file-name={file.name}
+											data-url={file.previewUrl} class="previewIcon">
+										</lightning-icon> -->
+										<!-- <a href={downloadLink} target="_blank" rel="noopener noreferrer">Download and View File</a> -->
+										<!-- <iframe src={iframeSrc} width="100%" height="400"></iframe> -->
+									</td>
+									<td>
+										<lightning-icon icon-name="utility:download" alternative-text="" size="small"
+											onclick={handleDownload} data-file-name={file.name}  data-value={file.title}
+											data-url={file.previewUrl}>
+										</lightning-icon>
+									</td>
+								</tr>
+							</template>
+						</tbody>
+					</table>
+				</div>
+				<div class="pagination">
+					<!-- <template if:true={prev}>
+						<div class="prev" onclick={pageChange}><img class="prev" src={leftNavigateIcon}></div>
+					</template> -->
+					<template if:true={prevDots}>
+						<div class="pageDots">...</div>
+					</template>
+					<template for:each={pagesToIterate} for:item="page">
+						<div key={page} class="page" onclick={pageChange}>{page}</div>
+					</template>
+					<template if:true={nextDots}>
+						<div class="pageDots">...</div>
+					</template>
+					<!-- <template if:true={next}>
+						<div class="next" onclick={pageChange}><img class="next" src={navigateIcon}></div>
+					</template> -->
+				</div>
+			</template>
+		</div>
+		<template if:true={showSpinner}>
+			<div class="demo-only demo--inverse" style="height:6rem;position:relative">
+				<div class="slds-spinner_container">
+					<div role="status" class="slds-spinner slds-spinner_medium">
+						<span class="slds-assistive-text">Loading</span>
+						<div class="slds-spinner__dot-a"></div>
+						<div class="slds-spinner__dot-b"></div>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+</template>
