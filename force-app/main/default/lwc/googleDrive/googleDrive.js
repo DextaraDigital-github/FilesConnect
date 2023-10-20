@@ -34,6 +34,7 @@ export default class UploadFile extends LightningElement {
 
 
   connectedCallback() {
+    console.log('connectedcallback');
     this.showSpinner = true;
     folderCreation({ recordId: this.recordId })
       .then(result => {

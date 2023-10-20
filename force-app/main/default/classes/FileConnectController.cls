@@ -110,11 +110,11 @@ public with sharing class FileConnectController {
     
     /**
 * @description get Authentication Data. 
-* @return List<Key_Configurations__mdt>
+* @return List<Dx_File__Key_Configurations__mdt>
 */ 
     @AuraEnabled
-    public static List<Key_Configurations__mdt> getAWSAuthenticationData() {
-        List<Key_Configurations__mdt> s3List = new List<Key_Configurations__mdt>();
+    public static List<Dx_File__Key_Configurations__mdt> getAWSAuthenticationData() {
+        List<Dx_File__Key_Configurations__mdt> s3List = new List<Dx_File__Key_Configurations__mdt>();
         try {
             s3List = selector.getAuthenticationData('AWS');
             return s3List;
@@ -174,11 +174,11 @@ public with sharing class FileConnectController {
     //Sharepoint controllers
     /**
 * @description get Authentication Data. 
-* @return List<Key_Configurations__mdt>
+* @return List<Dx_File__Key_Configurations__mdt>
 */ 
     @AuraEnabled
-    public static List<Key_Configurations__mdt> getSPAuthenticationData() {
-        List<Key_Configurations__mdt> s3List = new List<Key_Configurations__mdt>();
+    public static List<Dx_File__Key_Configurations__mdt> getSPAuthenticationData() {
+        List<Dx_File__Key_Configurations__mdt> s3List = new List<Dx_File__Key_Configurations__mdt>();
         try {
             s3List = selector.getAuthenticationData('Sharepoint');
             return s3List;

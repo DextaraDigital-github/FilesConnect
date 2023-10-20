@@ -74,11 +74,11 @@ export default class AWSS3FileOperations extends LightningElement {
                     if (result) {
                         let metadataRecs = JSON.parse(JSON.stringify(result));
                         metadataRecs && metadataRecs.forEach(rec => {
-                            (rec["DeveloperName"] === 'region') && (this.region = rec["Value__c"]);
-                            (rec["DeveloperName"] === 'accessKey') && (this.accessKey = rec["Value__c"]);
-                            (rec["DeveloperName"] === 'secretKey') && (this.secretKey = rec["Value__c"]);
-                            (rec["DeveloperName"] === 's3bucket') && (this.bucketName = rec["Value__c"]);
-                            (rec["DeveloperName"] === 'endpoint') && (this.endpoint = rec["Value__c"]);
+                            (rec["DeveloperName"] === 'region') && (this.region = rec["Dx_File__Value__c"]);
+                            (rec["DeveloperName"] === 'accessKey') && (this.accessKey = rec["Dx_File__Value__c"]);
+                            (rec["DeveloperName"] === 'secretKey') && (this.secretKey = rec["Dx_File__Value__c"]);
+                            (rec["DeveloperName"] === 's3bucket') && (this.bucketName = rec["Dx_File__Value__c"]);
+                            (rec["DeveloperName"] === 'endpoint') && (this.endpoint = rec["Dx_File__Value__c"]);
                         });
                         const AWS = window.AWS;
                         AWS.config.update({

@@ -36,16 +36,16 @@ public with sharing class FileConnectService extends AWS {
     
     /**
 * @description get Authentication Data. 
-* @return List<Key_Configurations__mdt>
+* @return List<Dx_File__Key_Configurations__mdt>
 */  
-    public List<Key_Configurations__mdt> getAuthenticationData() {
-        List<Key_Configurations__mdt> s3List = new List<Key_Configurations__mdt>();
+    public List<Dx_File__Key_Configurations__mdt> getAuthenticationData() {
+        List<Dx_File__Key_Configurations__mdt> s3List = new List<Dx_File__Key_Configurations__mdt>();
         Map<String, String> s3Map = new Map<String, String>();
         try {
             s3List = selector.getAuthenticationData('Sharepoint');
             if(s3List.size() > 0){ 
-                for(Key_Configurations__mdt s3:s3List) {
-                    s3Map.put(s3.Label,s3.Value__c);
+                for(Dx_File__Key_Configurations__mdt s3:s3List) {
+                    s3Map.put(s3.Label,s3.Dx_File__Value__c);
                 } 
                 if(s3Map.size() > 0) {
                     spEndpoint = s3Map.get('SPendpoint'); 
@@ -751,12 +751,12 @@ public with sharing class FileConnectService extends AWS {
 * @description init method used for initialize the AWS signature and upload file.
 */ 
     public override void init() {
-        List<Key_Configurations__mdt> s3List = new  List<Key_Configurations__mdt>();
+        List<Dx_File__Key_Configurations__mdt> s3List = new  List<Dx_File__Key_Configurations__mdt>();
         Map<String, String> s3Map = new Map<String, String>();
         s3List = selector.getAuthenticationData('AWS');
         if(s3List.size() > 0) {
-            for(Key_Configurations__mdt s3:s3List) {
-                s3Map.put(s3.Label,s3.Value__c);
+            for(Dx_File__Key_Configurations__mdt s3:s3List) {
+                s3Map.put(s3.Label,s3.Dx_File__Value__c);
             }
             if(s3Map.size() > 0) {
                 service = s3Map.get('service'); 
@@ -815,7 +815,7 @@ public with sharing class FileConnectService extends AWS {
             s3List =selector.getAuthenticationData('AWS');
             
             for(Key_Configurations__mdt s3:s3List) {
-                s3Map.put(s3.Label,s3.Value__c);
+                s3Map.put(s3.Label,s3.Dx_File__Value__c);
             }
             if(s3Map.size() > 0) {
                 bucketName = s3Map.get('s3bucket'); 

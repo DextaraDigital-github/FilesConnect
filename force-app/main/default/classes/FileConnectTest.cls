@@ -105,12 +105,12 @@ private class FileConnectTest {
         String ids= UserInfo.getUserId();
         User u=[select id from user where id=:ids limit 1];
         System.runAs(u) {
-            Key_Configurations__mdt config1 = new Key_Configurations__mdt();
-            config1.Value__c = 'Config1';
-            Key_Configurations__mdt config2 = new Key_Configurations__mdt();
-            config2.Value__c = 'Config2';
+            Dx_File__Key_Configurations__mdt config1 = new Dx_File__Key_Configurations__mdt();
+            config1.Dx_File__Value__c = 'Config1';
+            Dx_File__Key_Configurations__mdt config2 = new Dx_File__Key_Configurations__mdt();
+            config2.Dx_File__Value__c = 'Config2';
             Test.startTest();
-            List<Key_Configurations__mdt> result = FileConnectController.getAWSAuthenticationData();
+            List<Dx_File__Key_Configurations__mdt> result = FileConnectController.getAWSAuthenticationData();
             
             Test.stopTest(); 
             System.assertEquals(6, result.size(), 'Incorrect number of records returned');
@@ -231,12 +231,12 @@ private class FileConnectTest {
     @isTest
     static void testGetAuthenticationData2() {
         // Retrieve the custom metadata record(s) using getInstance or SOQL query
-        Storage_Point__mdt parentMetadata = Storage_Point__mdt.getInstance('Sharepoint');
-        List<Key_Configurations__mdt> keyConfigs = [SELECT Id, DeveloperName, Value__c, Label FROM Key_Configurations__mdt WHERE Parent_Configuration__c = :parentMetadata.Id];
+        Dx_File__Storage_Point__mdt parentMetadata = Dx_File__Storage_Point__mdt.getInstance('Sharepoint');
+        List<Dx_File__Key_Configurations__mdt> keyConfigs = [SELECT Id, DeveloperName, Dx_File__Value__c, Label FROM Dx_File__Key_Configurations__mdt WHERE Dx_File__Parent_Configuration__c = :parentMetadata.Id];
         
         // Call the getAuthenticationData method for test coverage
         Test.startTest();
-        List<Key_Configurations__mdt> result = FileConnectController.getSPAuthenticationData();
+        List<Dx_File__Key_Configurations__mdt> result = FileConnectController.getSPAuthenticationData();
         Test.stopTest();
         
     }

@@ -25,13 +25,13 @@ public with sharing class FileConnectSelector {
     
     /**
 * @description get Authentication Data. 
-* @return List<Key_Configurations__mdt>
+* @return List<Dx_File__Key_Configurations__mdt>
 */ 
-    public List<Key_Configurations__mdt> getAuthenticationData(String storageType) {
-        List<Key_Configurations__mdt> s3List = new List<Key_Configurations__mdt>();
+    public List<Dx_File__Key_Configurations__mdt> getAuthenticationData(String storageType) {
+        List<Dx_File__Key_Configurations__mdt> s3List = new List<Dx_File__Key_Configurations__mdt>();
         try {
-            List<Storage_Point__mdt> parentMetadata = [SELECT Id,DeveloperName from Storage_Point__mdt where DeveloperName =:storageType];
-            s3List = [SELECT Id,DeveloperName,Value__c,Label from Key_Configurations__mdt where parent_Configuration__c =: parentMetadata];
+            List<Dx_File__Storage_Point__mdt> parentMetadata = [SELECT Id,DeveloperName from Dx_File__Storage_Point__mdt where DeveloperName =:storageType];
+            s3List = [SELECT Id,DeveloperName,Dx_File__Value__c,Label from Dx_File__Key_Configurations__mdt where Dx_File__parent_Configuration__c =: parentMetadata];
             return s3List;
         } catch(exception e) {
             String errorMsg = e.getMessage();

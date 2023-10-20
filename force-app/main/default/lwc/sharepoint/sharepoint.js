@@ -54,9 +54,9 @@ export default class UploadFile extends LightningElement {
         if (result) {
           let metadataRecs = JSON.parse(JSON.stringify(result));
           metadataRecs && metadataRecs.forEach(rec => {
-            (rec["DeveloperName"] === 'sharepoint') && (this.splink = rec["Value__c"]);
-            (rec["DeveloperName"] === 'downloadurl') && (this.downloadurl = rec["Value__c"]);
-            (rec["DeveloperName"] === 'lwcendpoint') && (this.lwcendpoint = rec["Value__c"]);
+            (rec["DeveloperName"] === 'sharepoint') && (this.splink = rec["Dx_File__Value__c"]);
+            (rec["DeveloperName"] === 'downloadurl') && (this.downloadurl = rec["Dx_File__Value__c"]);
+            (rec["DeveloperName"] === 'lwcendpoint') && (this.lwcendpoint = rec["Dx_File__Value__c"]);
           });
         }
       }).catch(error => {
