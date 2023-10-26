@@ -1,0 +1,102 @@
+# Unique name for this workflow
+name: FilesConnect - Code Push to Specific Scratch Org
+
+# Definition when the workflow should run
+
+on:
+  workflow_dispatch:
+    inputs:
+     scratch-org_username: 
+      #username to the scratch-org which needs to be created
+      required: true
+      
+     scratch-org_consumerkey: 
+      #consumerkey to the scratch-org which needs to be created
+      required: true
+      
+     scratch-org_loginurl: 
+      #loginurl to the scratch-org which needs to be created
+      required: true
+
+# Jobs to be executed
+
+jobs:
+
+ environment-setup:
+  
+    name: environment-setup
+    runs-on: ubuntu-latest
+    
+    steps:
+    
+      # Checkout the source code
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+        
+      # Cache node_modules to speed up the process
+      - name: Setup Node Environment
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
+          
+ validate:
+    name: Org authenticate and validate
+    needs: [environment-setup]
+    runs-on: ubuntu-latest
+    # if: github.event == 'push'
+    steps:
+    
+    # Install Salesforce CLI
+      - name: Install Salesforce CLI
+        env:
+          GITHUB_PATH: ~/Git/bin
+        run: |
+              wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+              sudo mkdir ~/sfdx-cli
+              sudo tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx-cli --strip-components 1
+              export PATH=$PATH:~/sfdx-cli/bin
+              echo "~/sfdx-cli/bin" >> $GITHUB_PATH
+              sudo chmod -R 777 ~/sfdx-cli
+              sfdx --version
+            
+    # Run Salesforce CLI Scanner For Security checks
+      - name: 'Check for SFDX Update'
+        run: sfdx update
+        
+    # Install Salesforce SFDX Scanner
+      - name: 'Install Salesforce SFDX Scanner'
+        run: sfdx plugins:install @salesforce/sfdx-scanner
+
+    # Checkout the source code
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+
+    # Connect with Salesforce ORG
+      - name: 'Connect with Salesforce ORG'
+        working-directory: .github/jwt/
+        run: sfdx auth:jwt:grant --clientid ${{github.event.inputs.scratch-org_consumerkey}} --jwtkeyfile server.key --username ${{github.event.inputs.scratch-org_username}} -d --instanceurl ${{github.event.inputs.scratch-org_loginurl}}
+
+    # Code Push to Scratch org
+      - name: 'code push'
+        run: sfdx force:source:push --targetusername=${{github.event.inputs.scratch-org_username}} --wait 20 -f --loglevel debug
+
+    # Generate Violation Report
+      - name: 'Scan for Violations and Generate report'
+        run: sfdx scanner:run:dfa --target "./**/*.cls" --projectdir "./" --outfile ViolationReport.html --format html
+       
+    # Send Violation Report Mail 
+      - name: 'Send mail'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: mail.smtp2go.com
+          server_port: 465
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Github Actions workflow result
+          to: akamanasf@gmail.com
+          from: RHYTHM GitHub Actions
+          html_body: file://.github/workflows/EmailTemplate.html
+          attachments: ViolationReport.html
+          convert_markdown: true
+          priority: normal
