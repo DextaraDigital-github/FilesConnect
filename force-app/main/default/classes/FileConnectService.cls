@@ -446,7 +446,7 @@ public with sharing class FileConnectService extends AWS {
             HttpRequest request = new HttpRequest();
             HttpResponse response = new HttpResponse();
             Http http = new Http();
-            String endpoint = 'callout:Drive/files?q=\''+folderId+'\'%20in%20parents';   
+            String endpoint = 'callout:Drive/files?q=\''+folderId+'\'%20in%20parents%20and%20trashed=false';   
             request.setEndpoint(endpoint);
             request.setMethod('GET');
             response = http.send(request);
@@ -647,34 +647,38 @@ public with sharing class FileConnectService extends AWS {
 * @param folderId This is a folderId.
 * @param fileName This is the file name. 
 */   
-    public void uploadFileToFolder(Blob fileBlob, String folderId, String fileName) {
-        String boundary = '----WebKitFormBoundary7MA4YWxkTrZu0gW';
-        String body = '--' + boundary + '\r\n' +
-            'Content-Disposition: form-data; name="metadata"\r\n' +
-            'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
-            '{ "name" :"'+fileName+'" , "parents": ["' + folderId + '"] }\r\n' +
-            '--' + boundary + '\r\n' +
-            'Content-Disposition: form-data; name="file"\r\n\r\n';
-        
-        String footer = '\r\n--' + boundary + '--';
-        String endPoint = 'callout:UploadtoDrive/files?uploadType=multipart';
-        HttpRequest req = new HttpRequest();
-        req.setEndpoint(endPoint);
-        req.setMethod('POST');
-        req.setHeader('Content-Type', 'multipart/related; boundary=' + boundary);
-        req.setBodyAsBlob(Blob.valueOf(body +EncodingUtil.base64Encode(fileBlob) + footer));
-        
-        Http http = new Http();
-        HttpResponse res = http.send(req);
-        
-          if (res.getStatusCode() == 200) {
-                System.debug('File uploaded successfully.');
-            } else {
-                System.debug('Error uploading file: ' + res.getStatus());
+    public void UploadFile(Blob file, String FolderId, String fileName, String filetype) {
+        String boundary = '----------b';
+        String delimiter = '\r\n--' + boundary + '\r\n';
+        String close_delim = '\r\n--' + boundary + '--';
+        if(file!=null)
+        {
+            String bodyEncoded = EncodingUtil.base64Encode(file);
+            String body = delimiter + 'Content-Type: application/json\r\n\r\n' + '{ "name" : "' + filename + '",' + ' "mimeType" : "' + filetype + '",' + '"parents":["'+ FolderId +'"]}' + delimiter + 'Content-Type: ' + filetype + '\r\n' + 'Content-Transfer-Encoding: base64\r\n' + '\r\n' + bodyEncoded + close_delim;
+            System.debug('Body Json ----> ' + body);
+            try{
+                HttpRequest req = new HttpRequest();
+                req.setEndpoint('callout:UploadtoDrive/files?uploadType=multipart');
+                req.setMethod('POST');
+                req.setHeader('Content-Type', 'multipart/mixed; boundary="' + boundary + '"');
+                req.setHeader('Content-length', String.valueOf(body.length()));
+                req.setBody(body);
+                req.setTimeout(60 * 1000);
+                // Send the request and retrieve the response
+                Http http = new Http();
+                HttpResponse res = http.send(req);
+                if (res.getStatusCode() == 200 || res.getStatusCode() == 201 || res.getStatusCode() == 204) {
+                    System.debug('File uploaded successfully.');
+                } else {
+                    System.debug('Error deleted file: ' + res.getStatus());
+                }
             }
-        
-    }
-    
+            catch(Exception e) {
+                System.debug(LoggingLevel.ERROR,
+                             'Call exception ' + e.getMessage());
+            }
+        }
+       } 
     /**
 * @description delete a file from google drive folder.
 * @param fileId This is a fileId.

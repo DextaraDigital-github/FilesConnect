@@ -56,10 +56,10 @@ public with sharing class FileConnectController {
 * @param fileName This is the file name. 
 */   
     @AuraEnabled(Cacheable= true)
-    public static void uploadFileToFolder(Blob fileBlob, String folderId, String fileName) {
+    public static void uploadFileToFolder(Blob fileBlob, String folderId, String fileName,String fileType) {
         try {
             if(folderId != null && fileBlob != null && fileName != null){
-                fileService.uploadFileToFolder(fileBlob,folderId,fileName);
+                fileService.UploadFile(fileBlob,folderId,fileName,fileType);
             }
         } catch(exception e) {
             String errorMsg = e.getMessage();
