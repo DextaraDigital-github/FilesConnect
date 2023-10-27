@@ -34,7 +34,6 @@ export default class UploadFile extends LightningElement {
 
 
   connectedCallback() {
-    console.log('connectedcallback');
     this.showSpinner = true;
     folderCreation({ recordId: this.recordId })
       .then(result => {
@@ -205,7 +204,7 @@ export default class UploadFile extends LightningElement {
     let folderid = this.FolderUniqueId;
     const reader = new FileReader();
     reader.onload = () => {
-      uploadFileToFolder({ fileBlob: reader.result, folderId: folderid, fileName: file.name })
+      uploadFileToFolder({ fileBlob: reader.result, folderId: folderid, fileName: file.name,fileType: file.type })
         .then(sharedFolderId => {
           this.showSpinner = false;
           this.connectedCallback();
