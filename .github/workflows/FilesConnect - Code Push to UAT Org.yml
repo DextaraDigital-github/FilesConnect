@@ -1,0 +1,74 @@
+# Unique name for this workflow
+name: FilesConnect - Code Push to UAT Org
+
+# Definition when the workflow should run
+
+on:
+  pull_request:
+    branches:
+      - uat
+    types:
+      - closed
+
+# Jobs to be executed
+
+jobs:
+
+  environment-setup:
+    name: environment-setup
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # Checkout the source code
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+
+      # Cache node_modules to speed up the process
+      - name: Setup Node Environment
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '12'
+
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo The PR was merged
+
+  validate:
+    name: Scratchorg creation and package installation
+    needs: [environment-setup]
+    runs-on: ubuntu-latest
+    # if: github.event == 'push'
+    steps:
+
+    # Install Salesforce CLI
+      - name: 'Install Salesforce CLI'
+        run: |
+            wget https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz
+            mkdir sfdx-cli
+            tar xJf sfdx-linux-amd64.tar.xz -C sfdx-cli --strip-components 1
+            ./sfdx-cli/install
+
+    # Run Salesforce CLI Scanner For Security checks
+      - name: 'Check for SFDX Update'
+        run: sfdx update
+
+    # Install Salesforce SFDX Scanner
+      - name: 'Install Salesforce SFDX Scanner'
+        run: sfdx plugins:install @salesforce/sfdx-scanner
+
+    # Checkout the source code
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2 
+
+    # Connect with Salesforce ORG
+      - name: 'Connect with Salesforce ORG'
+        working-directory: .github/jwt/
+        run: sfdx auth:jwt:grant --clientid ${{secrets.UAT_CONSUMERKEY}} --jwtkeyfile server.key --username ${{secrets.UAT_USERNAME}} -d --instanceurl ${{secrets.UAT_LOGINURL}}
+
+    # Code Push to Scratch org
+      - name: 'code push'
+        run: sfdx force:source:push --targetusername=${{secrets.UAT_USERNAME}} --wait 20 -f --loglevel debug
