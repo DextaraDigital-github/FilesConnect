@@ -2,11 +2,27 @@
   "packageDirectories": [
     {
       "path": "force-app",
-      "default": true
+      "default": true,
+      "package": "FilesConnectUMPack1",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "versionDescription": ""
+    },
+    {
+      "path": "force-app",
+      "package": "FilesConnectUMPack2",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "default": false,
+      "versionDescription": ""
     }
   ],
   "name": "DxFilesConnect",
-  "namespace": "",
+  "namespace": "Dx_File",
   "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "58.0"
+  "sourceApiVersion": "58.0",
+  "packageAliases": {
+    "FilesConnectUMPack1": "0HoQm00000000RRKAY",
+    "FilesConnectUMPack2": "0HoQm00000000T3KAI"
+  }
 }
