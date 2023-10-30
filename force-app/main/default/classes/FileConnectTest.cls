@@ -344,7 +344,7 @@ private class FileConnectTest {
         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new MockHttpResponse());
         
-        FileConnectController.uploadFileToFolder(Blob.valueOf('test'),acc.id,'test');
+        FileConnectController.uploadFileToFolder(Blob.valueOf('test'),acc.id,'test','text/plain');
         Test.stopTest();
     }
     public class GDHttpResponse implements HttpCalloutMock {
