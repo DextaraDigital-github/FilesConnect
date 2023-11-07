@@ -2,7 +2,7 @@
   "packageDirectories": [
     {
       "path": "force-app",
-      "default": true,
+      "default": false,
       "package": "FilesConnectUMPack1",
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
@@ -13,7 +13,7 @@
       "package": "FilesConnectUMPack2",
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
-      "default": false,
+      "default": true,
       "versionDescription": ""
     }
   ],
@@ -23,6 +23,7 @@
   "sourceApiVersion": "58.0",
   "packageAliases": {
     "FilesConnectUMPack1": "0HoQm00000000RRKAY",
-    "FilesConnectUMPack2": "0HoQm00000000T3KAI"
+    "FilesConnectUMPack2": "0HoQm00000000T3KAI",
+    "FilesConnectUMPack2@0.1.0-1": "04tQm000000M32TIAS"
   }
 }
